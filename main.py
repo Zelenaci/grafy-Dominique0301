@@ -55,7 +55,7 @@ class Application(tk.Tk):
             #print(len(radky))
             f = float(self.freq.get())                   
             u = np.cos(2*pi*f*hodnoty_x)   
-            plt.plot(hodnoty_x,u, c="r", linewidth=2)
+            plt.plot(hodnoty_x,u)
             plt.grid()
             plt.show()
 
