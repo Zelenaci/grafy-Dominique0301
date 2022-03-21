@@ -21,13 +21,14 @@ class Application(tk.Tk):
         self.bind("<Escape>", self.quit)
         self.geometry("200x200")
 
-        self.btn = tk.Button(self, text="luxus", command=self.graf)
+        self.btn = tk.Button(self, text="luxus", command=self.cosinus)
         self.btn.grid(row=1, column=1)
 
         self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.freq.grid(row=2, column=1)
 
-        self.hodnoty = []
+        self.hodnoty_x = []
+        self.hodnoty_y = []
 
 
     def validate(self, value):
@@ -39,23 +40,23 @@ class Application(tk.Tk):
 
     def graf(self):
         if self.freq.get()=="":
-            messagebox.showerror("Pozor", "Zadejte ffrekvenci")
+            messagebox.showerror("Pozor", "Zadejte frekvenci")
         else:
             self.cosinus()
 
     def cosinus(self):
-        with open("soubor-win.txt", "r") as f:
-            radky = f.readlines()
-            x = [float(line.split()[0]) for line in radky]
-            self.hodnoty.append(x)
-            for radek in self.hodnoty:
-                start = radek[0]
-                konec = radek[-1]
-            hodnoty_x = np.linspace(start, konec,len(radky))
-            #print(len(radky))
-            f = float(self.freq.get())                   
-            u = np.cos(2*pi*f*hodnoty_x)   
-            plt.plot(hodnoty_x,u)
+        with open("soubor-ux.txt", "r") as f:
+            
+            while 1:
+                radek=f.readline()
+                if radek=='':
+                    break
+                cisla=radek.split()
+            self.hodnoty_x.append( float(cisla[0]))
+            self.hodnoty_y.append(float(cisla[1]))
+            t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+            u = np.cos(2*pi*50*t)
+            plt.plot(self.hodnoty_x,u)
             plt.grid()
             plt.show()
 
