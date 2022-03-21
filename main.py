@@ -45,20 +45,21 @@ class Application(tk.Tk):
             self.cosinus()
 
     def cosinus(self):
-        with open("soubor-ux.txt", "r") as f:
-            
-            while 1:
-                radek=f.readline()
-                if radek=='':
-                    break
-                cisla=radek.split()
+        f = open("soubor-ux.txt", "r")
+        self.hodnoty_x = []
+        self.hodnoty_y = []
+        while 1:
+            radek=f.readline()
+            if radek=='':
+                break
+            cisla=radek.split()
             self.hodnoty_x.append( float(cisla[0]))
             self.hodnoty_y.append(float(cisla[1]))
-            t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
-            u = np.cos(2*pi*50*t)
-            plt.plot(self.hodnoty_x,u)
-            plt.grid()
-            plt.show()
+            #t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+            #u = np.cos(2*pi*50*t)
+        plt.plot(self.hodnoty_x,self.hodnoty_y)
+        plt.grid()
+        plt.show()
 
 
  
