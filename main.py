@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+from importlib.metadata import PathDistribution
 from os.path import basename, splitext
 import math
 from math import pi
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, IntVar
 from tkinter.messagebox import showerror
 from matplotlib import pyplot as plt
 import numpy as np
@@ -11,7 +12,8 @@ import numpy as np
 
 class Application(tk.Tk):
     name = basename(splitext(basename(__file__.capitalize()))[0])
-    name = "Absolutní Luxus"
+    name = "Luxus"
+    
     
 
 
@@ -19,45 +21,83 @@ class Application(tk.Tk):
         super().__init__(className=self.name)
         self.title(self.name)
         self.bind("<Escape>", self.quit)
-        self.geometry("200x200")
+        self.geometry("400x400")
 
-        self.btn = tk.Button(self, text="luxus", command=self.graf)
-        self.btn.grid(row=1, column=1)
+        self.btn = tk.Button(self, text="graf", command=self.graf)
+        self.btn.grid(row=1, column=2)
 
         self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
-        self.freq.grid(row=2, column=1)
+        self.freq.grid(row=2, column=2, padx=10, pady=10)
+        self.frekvence = tk.Label(self,text="f =")
+        self.frekvence.grid(row=2, column=1)
+        
+        self.amplituda = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
+        self.amplituda.grid(row=5, column=2, padx=10, pady=10)
 
-        self.hodnoty = []
+        self.Um = tk.Label(self, text="Amplituda")
+        self.Um.grid(row=5, column=1 )
+
+        self.cas_start = tk.Entry(self,validate="key",  validatecommand=(self.register(self.validate), "%P"))
+        self.cas_start.grid(row=3, column=2, padx=10, pady=10)
+        self.cas_konec = tk.Entry(self,validate="key",  validatecommand=(self.register(self.validate), "%P"))
+        self.cas_konec.grid(row=4, column=2, padx=10, pady=10)
+        self.cas_zacatek = tk.Label(self, text="OD")
+        self.cas_zacatek.grid(row=3, column=1)
+        self.cas_final = tk.Label(self, text="DO")
+        self.cas_final.grid(row=4, column=1)
+
+        self.hodnoty_x = []
+        self.hodnoty_y = []
+
+        self.start = self.cas_start.get()
+        self.konec = self.cas_konec.get()
+        self.frq = float(self.freq.get())
+        self.amp = float(self.amplituda.get())
 
 
     def validate(self, value):
-        if len(value) == 0 or value.isnumeric():
+        if len(value) == 0 or value.isnumeric() or self.desetinne(value):
             return True
         else:
             return False
 
+    def nula(self, value):
+        if value == "-":
+            return True
+        else:
+            return False
+
+    def desetinne(self, value):
+        try:
+            float(value)
+        except:
+            return False
+        return True
+
 
     def graf(self):
-        if self.freq.get()=="":
-            messagebox.showerror("Pozor", "Zadejte ffrekvenci")
+        if self.freq.get()=="" or self.amplituda.get()=="":
+            messagebox.showerror("Pozor", "Chybějicí parametry")
         else:
             self.cosinus()
 
     def cosinus(self):
-        with open("soubor-win.txt", "r") as f:
-            radky = f.readlines()
-            x = [float(line.split()[0]) for line in radky]
-            self.hodnoty.append(x)
-            for radek in self.hodnoty:
-                start = radek[0]
-                konec = radek[-1]
-            hodnoty_x = np.linspace(start, konec,len(radky))
-            #print(len(radky))
-            f = float(self.freq.get())                   
-            u = np.cos(2*pi*f*hodnoty_x)   
-            plt.plot(hodnoty_x,u)
-            plt.grid()
-            plt.show()
+        f = open("soubor-ux.txt", "r")
+        self.hodnoty_x = []
+        self.hodnoty_y = []
+        while 1:
+            radek=f.readline()
+            if radek=='':
+                break
+            cisla=radek.split()
+            self.hodnoty_x.append( float(cisla[0]))
+            self.hodnoty_y.append(float(cisla[1]))
+        t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+        u = self.amp*(np.cos(2*pi*self.frq*t))
+        plt.xlim(-10,10)
+        plt.plot(t,u)
+        plt.grid()
+        plt.show()
 
 
  
