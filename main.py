@@ -24,7 +24,7 @@ class Application(tk.Tk):
         self.bind("<Escape>", self.quit)
         self.geometry("400x400")
 
-        self.btn = tk.Button(self, text="graf", command=self.graf)
+        self.btn = tk.Button(self, text="graf", command=self.soubor)
         self.btn.grid(row=1, column=2)
 
         self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
@@ -61,8 +61,8 @@ class Application(tk.Tk):
 
         self.hodnoty_x = []
         self.hodnoty_y = []
-        self.amp = float(self.amplituda.get())
-        self.frq = float(self.freq.get())
+        #self.amp = float(self.amplituda.get())
+        #self.frq = float(self.freq.get())
 
 
     def validate(self, value):
@@ -103,11 +103,30 @@ class Application(tk.Tk):
             self.hodnoty_x.append( float(cisla[0]))
             self.hodnoty_y.append(float(cisla[1]))
         t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
-        u = self.amp*(np.cos(2*pi*self.frq*t))
+        u = (np.cos(2*pi*20*t))
         plt.xlim(-10,10)
         plt.plot(t,u)
         plt.grid()
         plt.show()
+
+
+    def soubor(self):
+        f = open("soubor-ux.txt", "r")
+        self.hodnoty_x = []
+        self.hodnoty_y = []
+        while 1:
+            radek=f.readline()
+            if radek=='':
+                break
+            cisla=radek.split()
+            self.hodnoty_x.append( float(cisla[0]))
+            self.hodnoty_y.append(float(cisla[1]))
+        #x = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+        #y = np.linspace(self.hodnoty_y[0],self.hodnoty_y[-1],len(self.hodnoty_y))
+        plt.plot(self.hodnoty_x, self.hodnoty_y)
+        plt.grid(True)
+        plt.show()
+
 
 
  
