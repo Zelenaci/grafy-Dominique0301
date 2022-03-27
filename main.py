@@ -15,6 +15,7 @@ class Application(tk.Tk):
     name = "Luxus"
     
     
+    
 
 
     def __init__(self):
@@ -41,6 +42,18 @@ class Application(tk.Tk):
         self.cas_start.grid(row=3, column=2, padx=10, pady=10)
         self.cas_konec = tk.Entry(self,validate="key",  validatecommand=(self.register(self.validate), "%P"))
         self.cas_konec.grid(row=4, column=2, padx=10, pady=10)
+      
+
+        self.btn = tk.Button(self, text="graf", command=self.cosinus)
+        self.btn.grid(row=1, column=2)
+
+        self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
+        self.freq.grid(row=2, column=2)
+
+        self.cas_start = tk.Entry(self,validate="key", validatecommand=(self.register(self.validate), "%P"))
+        self.cas_start.grid(row=3, column=2)
+        self.cas_konec = tk.Entry(self,validate="key", validatecommand=(self.register(self.validate), "%P"))
+        self.cas_konec.grid(row=4, column=2)
         self.cas_zacatek = tk.Label(self, text="OD")
         self.cas_zacatek.grid(row=3, column=1)
         self.cas_final = tk.Label(self, text="DO")
@@ -48,15 +61,12 @@ class Application(tk.Tk):
 
         self.hodnoty_x = []
         self.hodnoty_y = []
-
-        self.start = self.cas_start.get()
-        self.konec = self.cas_konec.get()
-        self.frq = float(self.freq.get())
-        self.amp = float(self.amplituda.get())
+        self.amp = self.amplituda.get()
+        self.frq = self.freq.get()
 
 
     def validate(self, value):
-        if len(value) == 0 or value.isnumeric() or self.desetinne(value):
+        if len(value) == 0 or value.isnumeric() or self.nula(value) or self.desetinne(value):
             return True
         else:
             return False
@@ -77,7 +87,7 @@ class Application(tk.Tk):
 
     def graf(self):
         if self.freq.get()=="" or self.amplituda.get()=="":
-            messagebox.showerror("Pozor", "Chybějicí parametry")
+            messagebox.showerror("Pozor", "chybějící paramtery")
         else:
             self.cosinus()
 
