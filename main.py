@@ -61,8 +61,8 @@ class Application(tk.Tk):
 
         self.hodnoty_x = []
         self.hodnoty_y = []
-        self.amp = self.amplituda.get()
-        self.frq = self.freq.get()
+        self.amp = float(self.amplituda.get())
+        self.frq = float(self.freq.get())
 
 
     def validate(self, value):
