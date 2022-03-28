@@ -61,8 +61,10 @@ class Application(tk.Tk):
 
         self.hodnoty_x = []
         self.hodnoty_y = []
-        self.amp = self.amplituda.get()
-        self.frq = self.freq.get()
+        self.amplituda.insert(0, '3.3')
+        self.freq.insert(0, '50')
+        self.amp = float(self.amplituda.get())
+        self.frq = float(self.freq.get())
 
 
     def validate(self, value):
@@ -86,25 +88,21 @@ class Application(tk.Tk):
 
 
     def graf(self):
-        if self.freq.get()=="" or self.amplituda.get()=="":
+        if self.freq.get()=="" or self.amplituda.get()=="" or self.cas_start.get()=="" or self.cas_konec.get()=="":
             messagebox.showerror("Pozor", "chybějící paramtery")
         else:
             self.cosinus()
 
     def cosinus(self):
-        f = open("soubor-ux.txt", "r")
-        self.hodnoty_x = []
-        self.hodnoty_y = []
-        while 1:
-            radek=f.readline()
-            if radek=='':
-                break
-            cisla=radek.split()
-            self.hodnoty_x.append( float(cisla[0]))
-            self.hodnoty_y.append(float(cisla[1]))
-        t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+        self.amp = float(self.amplituda.get())
+        self.frq = float(self.freq.get())
+        self.start = float(self.cas_start.get())
+        self.konec = float(self.cas_konec.get())
+        t = np.linspace(self.start, self.konec,333)
+        #t = np.linspace(0,2*1/self.frq,333)
         u = self.amp*(np.cos(2*pi*self.frq*t))
         plt.xlim(-10,10)
+        plt.xlim(t[0],t[-1])
         plt.plot(t,u)
         plt.grid()
         plt.show()
