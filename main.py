@@ -24,10 +24,15 @@ class Application(tk.Tk):
         self.bind("<Escape>", self.quit)
         self.geometry("400x400")
 
+<<<<<<< HEAD
         self.btn = tk.Button(self, text="soubor", command=self.soubor)
         self.btn.grid(row=1, column=1)
         self.btn2 = tk.Button(self, text="graf", command=self.graf)
         self.btn2.grid(row=6, column=1)
+=======
+        self.btn = tk.Button(self, text="graf", command=self.soubor)
+        self.btn.grid(row=1, column=2)
+>>>>>>> adcf18d0f50d0f6b3b7c35f582d2b74320c667b2
 
         self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.freq.grid(row=2, column=2, padx=10, pady=10)
@@ -46,6 +51,11 @@ class Application(tk.Tk):
         self.cas_konec.grid(row=4, column=2, padx=10, pady=10)
       
 
+<<<<<<< HEAD
+=======
+        self.btn = tk.Button(self, text="graf", command=self.cosinus)
+        self.btn.grid(row=1, column=2)
+>>>>>>> adcf18d0f50d0f6b3b7c35f582d2b74320c667b2
 
         self.freq = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.freq.grid(row=2, column=2)
@@ -61,8 +71,13 @@ class Application(tk.Tk):
 
         self.hodnoty_x = []
         self.hodnoty_y = []
+<<<<<<< HEAD
         self.amp = self.amplituda.get()
         self.frq = self.freq.get()
+=======
+        #self.amp = float(self.amplituda.get())
+        #self.frq = float(self.freq.get())
+>>>>>>> adcf18d0f50d0f6b3b7c35f582d2b74320c667b2
 
 
     def validate(self, value):
@@ -103,7 +118,11 @@ class Application(tk.Tk):
             self.hodnoty_x.append( float(cisla[0]))
             self.hodnoty_y.append(float(cisla[1]))
         t = np.linspace(self.hodnoty_x[0],self.hodnoty_x[-1], len(self.hodnoty_x))
+<<<<<<< HEAD
         u = self.amp*(np.cos(2*pi*self.frq*t))
+=======
+        u = (np.cos(2*pi*20*t))
+>>>>>>> adcf18d0f50d0f6b3b7c35f582d2b74320c667b2
         plt.xlim(-10,10)
         plt.plot(t,u)
         plt.grid()
